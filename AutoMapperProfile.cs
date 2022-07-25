@@ -4,16 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using dotnetRPG.Dtos.Character;
+using dotnetRPG.Dtos.Skill;
+using dotnetRPG.Dtos.Weapon;
 using dotnetRPG.Models;
 
 namespace dotnetRPG
 {
-  public class AutoMapperProfile : Profile
-  {
-    public AutoMapperProfile()
+    public class AutoMapperProfile : Profile
     {
-      CreateMap<Character, GetCharacterDto>();
-      CreateMap<AddCharacterDto, Character>();
+        public AutoMapperProfile()
+        {
+            CreateMap<Character, GetCharacterDto>();
+            CreateMap<AddCharacterDto, Character>();
+            CreateMap<Weapon, GetWeaponDto>();
+            CreateMap<Skill, GetSkillDto>();
+        }
     }
-  }
 }
