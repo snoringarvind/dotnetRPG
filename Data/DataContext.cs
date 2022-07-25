@@ -14,14 +14,13 @@ namespace dotnetRPG.Data
 
         }
 
-        // data-seeding
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Skill>().HasData(
-              new Skill() { Id = 1, Damage = 30, Name = "Frenzy" },
-              new Skill() { Id = 2, Damage = 20, Name = "Fire" },
-              new Skill() { Id = 3, Damage = 50, Name = "Blizzard" }
-              );
+                new Skill { Id = 1, Name = "Fireball", Damage = 30 },
+                new Skill { Id = 2, Name = "Frenzy", Damage = 20 },
+                new Skill { Id = 3, Name = "Blizzard", Damage = 50 }
+            );
         }
 
         public DbSet<Character> Characters { get; set; }

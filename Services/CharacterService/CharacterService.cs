@@ -36,6 +36,8 @@ namespace dotnetRPG.Services.CharacterService
                 _context.Characters.Add(character);
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = await _context.Characters
+                      .Include(c=>c.Skills)
+                      .Include(c=>c.Weapon)
                       .Where(c => c.User.Id == GetUserId())
                       .Select(c => _mapper.Map<GetCharacterDto>(c))
                       .ToListAsync();
@@ -52,6 +54,8 @@ namespace dotnetRPG.Services.CharacterService
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             serviceResponse.Data = await _context.Characters
+                    .Include(c=>c.Skills)
+                    .Include(c=>c.Weapon)
                     .Where(c => c.User.Id == GetUserId())
                     .Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
             return serviceResponse;
@@ -63,7 +67,10 @@ namespace dotnetRPG.Services.CharacterService
 
             try
             {
-                var dbCharacter = await _context.Characters.FirstAsync(c => c.Id == id && c.User.Id == GetUserId());
+                var dbCharacter = await _context.Characters
+                      .Include(c=>c.Skills)
+                      .Include(c=>c.Weapon)
+                      .FirstAsync(c => c.Id == id && c.User.Id == GetUserId());
 
                 Console.WriteLine("dbCharacter == " + dbCharacter);
                 serviceResponse.Data = _mapper.Map<GetCharacterDto>(dbCharacter);
@@ -85,6 +92,8 @@ namespace dotnetRPG.Services.CharacterService
             {
                 Character character = await _context.Characters
                 .Include(c => c.User)
+                .Include(c=>c.Skills)
+                .Include(c=>c.Weapon)
                 .FirstAsync(c => c.Id == updateCharacter.Id);
 
                 if (character.User.Id == GetUserId())
@@ -123,7 +132,10 @@ namespace dotnetRPG.Services.CharacterService
 
             try
             {
-                Character character = await _context.Characters.FirstAsync(c => c.Id == id && c.User.Id == GetUserId());
+                Character character = await _context.Characters
+                    .Include(c=>c.Skills)
+                    .Include(c=>c.Weapon)
+                    .FirstAsync(c => c.Id == id && c.User.Id == GetUserId());
 
                 _context.Characters.Remove(character);
 
@@ -171,7 +183,6 @@ namespace dotnetRPG.Services.CharacterService
                     return response;
                 }
 
-                //_context.Skills.Add(skill);
                 character.Skills.Add(skill);
 
                 await _context.SaveChangesAsync();
@@ -181,6 +192,9 @@ namespace dotnetRPG.Services.CharacterService
             }
             catch (Exception ex)
             {
+                Console.WriteLine("here's the problem " + ex);
+                response.Success = false;
+                response.Message = ex.Message;
 
             }
             return response;

@@ -91,20 +91,26 @@ namespace dotnetRPG.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skills");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Damage = 30,
-                            Name = "Frenzy"
+                            Name = "Fireball"
                         },
                         new
                         {
                             Id = 2,
                             Damage = 20,
-                            Name = "Fire"
+                            Name = "Frenzy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Damage = 50,
+                            Name = "Blizzard"
                         });
                 });
 

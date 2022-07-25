@@ -12,8 +12,8 @@ using dotnetRPG.Data;
 namespace dotnetRPG.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220724091936_SkillSeeding")]
-    partial class SkillSeeding
+    [Migration("20220725144527_Skill")]
+    partial class Skill
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -93,21 +93,7 @@ namespace dotnetRPG.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Damage = 30,
-                            Name = "Frenzy"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Damage = 20,
-                            Name = "Fire"
-                        });
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("dotnetRPG.Models.User", b =>
