@@ -5,6 +5,7 @@ using dotnetRPG.Data;
 using dotnetRPG.Dtos.Character;
 using dotnetRPG.Dtos.Weapon;
 using dotnetRPG.Models;
+using dotnetRPG.Services.CharacterService;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnetRPG.Services.WeaponService
@@ -14,12 +15,14 @@ namespace dotnetRPG.Services.WeaponService
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ICharacterService _characterService;
 
-        public WeaponService(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper)
+        public WeaponService(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper, ICharacterService characterService)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
             _mapper = mapper;
+            _characterService = characterService;
         }
 
         public async Task<ServiceResponse<GetCharacterDto>> AddWeapon(AddWeaponDto newWeapon)
@@ -29,7 +32,7 @@ namespace dotnetRPG.Services.WeaponService
             try
             {
                 //ask on reddit
-                Character character = await _context.Characters.FirstAsync(c => c.Id == newWeapon.CharacterId && c.User.Id == GetUserId());
+                Character character = await _context.Characters.FirstAsync(c => c.Id == newWeapon.CharacterId && c.User.Id == _characterService.GetUserId());
 
                 Weapon weapon = new Weapon()
                 {
@@ -55,11 +58,6 @@ namespace dotnetRPG.Services.WeaponService
             }
 
             return response;
-        }
-
-        public int GetUserId()
-        {
-            return int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }

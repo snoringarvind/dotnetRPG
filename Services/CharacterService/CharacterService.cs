@@ -152,7 +152,7 @@ namespace dotnetRPG.Services.CharacterService
             return serviceResponse;
         }
 
-        private int GetUserId() =>
+        public int GetUserId() =>
             int.Parse(_contextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public async Task<ServiceResponse<GetCharacterDto>> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
